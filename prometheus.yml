@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 5s # Fast scraping for local testing
+
+scrape_configs:
+  - job_name: 'mcp-systems-controller'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      # host.docker.internal allows the Docker container to reach your local Spring Boot app
+      - targets: ['host.docker.internal:8080']
