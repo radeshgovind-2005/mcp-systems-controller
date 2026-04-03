@@ -1,0 +1,30 @@
+### MCP Systems Controller - Admin & Simulation API
+# HITL Demonstration flow.
+
+@baseUrl = http://localhost:8080
+@operatorId = radesh-govind
+
+### 1. Simulate an Agent Request
+# This triggers a destructive 'docker_stop_container' tool call.
+# The system will intercept this and return a PENDING status with an Action ID.
+POST {{baseUrl}}/api/admin/approvals/simulate-agent
+Content-Type: application/json
+
+### 2. List Pending Approvals
+# Run this to see the "Plan of Action" (PoA) currently waiting in the Gate.
+GET {{baseUrl}}/api/admin/approvals
+Accept: application/json
+
+### 3. Resolve (Approve) an Action
+# Replace {actionId} with the ID returned from Step 1 or Step 2.
+# Setting 'approved=true' will trigger the actual Docker/K8s command.
+@actionId = de385c14-f5cf-4a09-b809-6376dfd0c849
+POST {{baseUrl}}/api/admin/approvals/{{actionId}}/resolve?approved=true&operatorId={{operatorId}}
+
+### 4. Resolve (Reject) an Action
+# If you reject, the action is discarded and never reaches the infrastructure.
+POST {{baseUrl}}/api/admin/approvals/{{actionId}}/resolve?approved=false&operatorId={{operatorId}}
+
+### 5. Check Prometheus Metrics
+# See the real-time counters for approved vs. rejected actions.
+GET {{baseUrl}}/actuator/prometheus
