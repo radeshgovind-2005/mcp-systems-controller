@@ -18,7 +18,7 @@ Accept: application/json
 ### 3. Resolve (Approve) an Action
 # Replace {actionId} with the ID returned from Step 1 or Step 2.
 # Setting 'approved=true' will trigger the actual Docker/K8s command.
-@actionId = de385c14-f5cf-4a09-b809-6376dfd0c849
+@actionId = 190a7cad-a4bc-48f4-8736-b50859c92b5d
 POST {{baseUrl}}/api/admin/approvals/{{actionId}}/resolve?approved=true&operatorId={{operatorId}}
 
 ### 4. Resolve (Reject) an Action
